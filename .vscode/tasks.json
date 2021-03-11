@@ -10,6 +10,7 @@
 				"src\\*.cpp",
 				"-o",
 				"build\\Ponk!.exe",
+				"-IC:/Programmation/Ponk!/include/",
 				"-IC:/Programmation/Libraries/i686-w64-mingw32/include",
 				"-LC:/Programmation/Libraries/i686-w64-mingw32/lib",
 				"-lmingw32",
