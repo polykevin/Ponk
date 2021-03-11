@@ -50,9 +50,34 @@ void RenderWindow::draw() {
 	SDL_RenderClear(renderer);
 }
 
+//fonction qui crée une texture
+void RenderWindow::loadTexture() {
+	texture = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,100,100);
+	if(texture == NULL){
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Bug pas reussi a crée une texture :c : %s",SDL_GetError());
+	}
+
+	SDL_SetRenderTarget(renderer,texture);//dit au rendu de dessiner sur la texture
+	//dessin sur la texture
+	SDL_SetRenderDrawColor(renderer,0,0,100,255);
+	SDL_RenderClear(renderer);
+
+	SDL_SetRenderDrawColor(renderer,0,150,0,255);
+	SDL_RenderDrawLine(renderer,0,0,100,100);
+	SDL_RenderDrawLine(renderer,100,0,0,100);
+	//dit au rendu de prendre en compte notre dessin
+	SDL_SetRenderTarget(renderer,nullptr);
+	//affichage de la texture
+	SDL_Rect src{ 0, 0, 100, 100};
+	SDL_Rect dst{ 0, 0, 200, 200};
+	SDL_RenderCopy(renderer,texture,&src,&dst);
+	SDL_RenderPresent(renderer);
+}
+
 
 // fonction qui va nettoyer la mémoire de l'ordi
 void RenderWindow::cleanUp() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+	SDL_DestroyTexture(texture);
 }

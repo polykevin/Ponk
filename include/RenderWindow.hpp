@@ -6,7 +6,9 @@ public:
     RenderWindow(const char* windowTitle,int windowWidth,int windowHeight);
     void cleanUp();
     void draw();
+    void loadTexture();
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_Texture* texture;
 };
