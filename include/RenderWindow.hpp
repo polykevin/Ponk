@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <ctime>
 
 class RenderWindow {//class pour crée des fenétre et autres
 public:
