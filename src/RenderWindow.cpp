@@ -43,12 +43,17 @@ SDL_Texture* RenderWindow::loadTexture(const char* filepath) {
 }
 
 void RenderWindow::render (SDL_Texture* texturePicture, SDL_Rect pictureDst, int pictureFlip) {
-	switch (pictureFlip) {
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+
+	switch(pictureFlip) {
 		case 0:
-			flip = SDL_FLIP_NONE;
+		flip = SDL_FLIP_NONE;
+		break;
 		case 1:
-			flip = SDL_FLIP_HORIZONTAL;
+		flip = SDL_FLIP_HORIZONTAL;
+		break;
 	}
+
 	SDL_RenderCopyEx (renderer, texturePicture, nullptr, &pictureDst, 0, nullptr, flip);//l'image
 }
 

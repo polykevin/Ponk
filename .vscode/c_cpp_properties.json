@@ -4,8 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "C:\\Programmation\\Ponk!\\include",
-                "C:\\Programmation\\Libraries\\i686-w64-mingw32\\include"
+                "C:\\Programmation\\Ponk\\include",
+                "C:\\Programmation\\libraries\\i686-w64-mingw32\\include"
             ],
             "defines": [
                 "_DEBUG",

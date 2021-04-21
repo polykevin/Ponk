@@ -16,6 +16,5 @@ private:
     SDL_Renderer* renderer;
     SDL_Texture* texturePicture;
     TTF_Font* font;
-    SDL_RendererFlip flip;
     SDL_Surface* picture;
 };
