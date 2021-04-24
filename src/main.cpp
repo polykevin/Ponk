@@ -27,6 +27,8 @@ int main(int argv, char** args)
 	Uint32 before, second = SDL_GetTicks(), after;
 	int frame_time, frames = 0;
 	static const int FRAME_RATE = 1000 / 60;
+	int player1Score = 0;
+	int player2Score = 0;
 
 	// rect initialisation
 	SDL_Rect player1;
@@ -52,12 +54,24 @@ int main(int argv, char** args)
 	background.h = 600;
 	background.x = 0;
 	background.y = 0;
+
+	SDL_Rect score1;
+	score1.y = 29;
+	score1.x = 280;
+
+	SDL_Rect score2;
+	score2.y = 29;
+	score2.x = 519;
+
 	// rect initialisation
 
+	// loading everything needed
 	SDL_Texture* backgroundTexture  = window.loadTexture("data/gfx/background.png");
 	SDL_Texture* player1Texture  = window.loadTexture("data/gfx/G39.png");//affiche le joueur1
 	SDL_Texture* player2Texture  = window.loadTexture("data/gfx/G39.png");//affiche le joueur2
 	SDL_Texture* ballTexture  = window.loadTexture("data/gfx/G40.png");//show the ball on the screen 
+	SDL_Texture* player1ScoreTexture;
+	SDL_Texture* player2ScoreTexture;
 
 	while (isRunning)// game loop
 	{
@@ -97,10 +111,25 @@ int main(int argv, char** args)
 		if (ball.y <= -2 || ball.y >= 564) {// boucing
 			ballSpeedY *= -1;
 		}
-		if (ball.x <= -2 || ball.x >= 764) {
+		if (ball.x <= -2) {//scored
 			ball.x = 400 - 19;
 			ball.y = 300 - 19;
 			ballSpeedX *= -1;
+			player2Score++;
+			player2ScoreTexture = window.loadText(player2Score);
+			SDL_QueryTexture (player2ScoreTexture, nullptr, nullptr, &score2.w, &score2.h);
+		}
+		if (ball.x >= 764) {
+			ball.x = 400 - 19;
+			ball.y = 300 - 19;
+			ballSpeedX *= -1;
+			player1Score++;
+			player1ScoreTexture = window.loadText(player1Score);
+			SDL_QueryTexture (player1ScoreTexture, nullptr, nullptr, &score1.w, &score1.h);
+		}
+
+		if (player1Score == 10 || player2Score == 10) {
+			isRunning = false;
 		}
 
 		//hitboxes
@@ -108,10 +137,12 @@ int main(int argv, char** args)
 			ballSpeedX *= -1;
 		}
 
-		window.render(backgroundTexture, background, 0);//show
-		window.render(player1Texture, player1, 0);
-		window.render(player2Texture, player2, 1);
-		window.render(ballTexture, ball, 0);
+		window.render (backgroundTexture, background, 0);//show
+		window.render (player1Texture, player1, 0);
+		window.render (player2Texture, player2, 1);
+		window.render (ballTexture, ball, 0);
+		window.render (player1ScoreTexture, score1, 0);
+		window.render (player2ScoreTexture, score2, 0);
 
 		window.update();
 
@@ -131,6 +162,12 @@ int main(int argv, char** args)
 	}
 
 	//vide la mémoire 
+	SDL_DestroyTexture (backgroundTexture);
+	SDL_DestroyTexture (player1Texture);
+	SDL_DestroyTexture (player2Texture);
+	SDL_DestroyTexture (ballTexture);
+	SDL_DestroyTexture (player2ScoreTexture);
+	SDL_DestroyTexture (player1ScoreTexture);
 	window.cleanUp();
 	TTF_Quit();
 	SDL_Quit();

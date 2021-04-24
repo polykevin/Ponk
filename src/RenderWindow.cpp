@@ -42,6 +42,14 @@ SDL_Texture* RenderWindow::loadTexture(const char* filepath) {
 	return texturePicture;
 }
 
+SDL_Texture* RenderWindow::loadText(int score) {
+	std::string scoreString = std::to_string(score);
+	const char* text = scoreString.c_str();
+	textSurface = TTF_RenderText_Blended (font,text,SDL_Color {255,255,255,255});
+	SDL_Texture* texture = SDL_CreateTextureFromSurface (renderer, textSurface);
+	return texture;
+}
+
 void RenderWindow::render (SDL_Texture* texturePicture, SDL_Rect pictureDst, int pictureFlip) {
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
@@ -65,6 +73,8 @@ void RenderWindow::update() {
 
 // fonction qui va nettoyer la mémoire de l'ordinateur
 void RenderWindow::cleanUp() {
+	SDL_FreeSurface(textSurface);
+	TTF_CloseFont(font);
     SDL_DestroyRenderer (renderer);
     SDL_DestroyWindow (window);
 	SDL_DestroyTexture (texturePicture);
